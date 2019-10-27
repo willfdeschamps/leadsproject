@@ -19,7 +19,7 @@ def _loadLead(req):
         "material" : req.form.get('material')
         }
 
-def _mountLeadsClusteredByConversion(initialDate, finalDate)
+def _mountLeadsClusteredByConversion(initialDate, finalDate):
     pipeline = [
     {"$match" : {'created' : {"$gte": initialDate, "$lte": finalDate}}},
     {"$project": { "_id": 0, "conversions": 1 } },
