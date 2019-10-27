@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <script type="text/javascript">
+        
+
+
+    </script>
+</head>
+
+<body>
+    <script src="scripts.js"></script>
+    <form action="http://127.0.0.1:5000/lead" method="post" onsubmit="return validateForm()">
+        E-mail:<br>
+        <input type="text" name="email"><br>
+        Telefone:<br>
+        <input type="text" name="telefone" id="telefone"><br>
+        Cargo:<br>
+        <input type="text" name="cargo"><br>
+        Material:<br>
+        <input type="text" name="material"><br>
+        <br>
+        <input value="Submit" type="submit" onclick="submitform()">
+    </form>
+</body>
+
+</html>
