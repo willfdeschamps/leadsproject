@@ -58,7 +58,7 @@ def data():
         return response   
     
     
-    leadsClusteredByConversion = _mountLeadsClusteredByConversion(initalData, finalDate)
+    leadsClusteredByConversion = _mountLeadsClusteredByConversion(initialDate, finalDate)
     quantityOfLeads = count_leads({'created' : {"$gte": initialDate, "$lte": finalDate}})
     totalLeadsWithConversions = count_leads({'created' : {"$gte": initialDate, "$lte": finalDate}, "conversions":{"$exists":"true","$ne":[]}})
 
