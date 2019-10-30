@@ -1,5 +1,5 @@
 from repositories import mongo_db
-import datetime
+from datetime import datetime, timezone
 
 def count_leads(filter):
     return mongo_db.people.count_documents(filter)
@@ -7,7 +7,7 @@ def count_leads(filter):
 def upsert_lead(filter, lead):
     insertLead = {
         "email" : lead['email'],
-        "created": datetime.datetime.utcnow(),
+        "created": datetime.now(timezone.utc).astimezone().isoformat(),
     }
     updateLead = {
         "telefone" : lead['telefone'],

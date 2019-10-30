@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request as req
 
 import pymongo
-import datetime
+from datetime import datetime, timezone
 
 from repositories.lead import count_leads, upsert_lead, aggregate_lead
 
@@ -47,21 +47,19 @@ def data():
     finalDate = req.args.get('finalDate') + " 23:59:59"
     
     try:
-        initialDate = datetime.datetime.strptime(initialDate, '%d/%m/%Y')
-        finalDate = datetime.datetime.strptime(finalDate, '%d/%m/%Y %H:%M:%S')
+        initialDate = datetime.strptime(initialDate, '%d/%m/%Y')
+        finalDate = datetime.strptime(finalDate, '%d/%m/%Y %H:%M:%S')
     except:
-        response = app.response_class(
-            status=400,
-            response=json.dumps({"error":"Invalid date format."}),
-            mimetype='application/json'
-        )
-        return response   
+        return "Invalid date format", 400  
     
+    initialDateIsoFormat = initialDate.astimezone().isoformat()
+    finalDateIsoFormat = finalDate.astimezone().isoformat()
     
-    leadsClusteredByConversion = _mountLeadsClusteredByConversion(initialDate, finalDate)
-    quantityOfLeads = count_leads({'created' : {"$gte": initialDate, "$lte": finalDate}})
-    totalLeadsWithConversions = count_leads({'created' : {"$gte": initialDate, "$lte": finalDate}, "conversions":{"$exists":"true","$ne":[]}})
+    print(datetime.now(timezone.utc).astimezone().isoformat())
+    totalLeads = count_leads({'created' : {"$gte": initialDateIsoFormat, "$lte": finalDateIsoFormat}})
+    leadsClusteredByConversion = _mountLeadsClusteredByConversion(initialDateIsoFormat, finalDateIsoFormat)
+    totalLeadsWithConversions = count_leads({'created' : {"$gte": initialDateIsoFormat, "$lte": finalDateIsoFormat}, "conversions":{"$exists":"true","$ne":[]}})
 
-    return {"totalLeads" : quantityOfLeads,
-            "totalLeadsWithConversions" : count_leads({'created' : {"$gte": initialDate, "$lte": finalDate}, "conversions":{"$exists":"true","$ne":[]}}),
+    return {"totalLeads" : totalLeads,
+            "totalLeadsWithConversions" : totalLeadsWithConversions,
             "leadsClusteredByConversion": leadsClusteredByConversion}
