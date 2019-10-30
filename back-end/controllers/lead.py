@@ -55,7 +55,6 @@ def data():
     initialDateIsoFormat = initialDate.astimezone().isoformat()
     finalDateIsoFormat = finalDate.astimezone().isoformat()
     
-    print(datetime.now(timezone.utc).astimezone().isoformat())
     totalLeads = count_leads({'created' : {"$gte": initialDateIsoFormat, "$lte": finalDateIsoFormat}})
     leadsClusteredByConversion = _mountLeadsClusteredByConversion(initialDateIsoFormat, finalDateIsoFormat)
     totalLeadsWithConversions = count_leads({'created' : {"$gte": initialDateIsoFormat, "$lte": finalDateIsoFormat}, "conversions":{"$exists":"true","$ne":[]}})
