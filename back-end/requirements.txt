@@ -51,7 +51,7 @@ system-service==0.3
 systemd-python==234
 ubuntu-drivers-common==0.0.0
 ufw==0.35
-urllib3==1.22
+urllib3==1.26.5
 virtualenv==15.1.0
 virtualenv-clone==0.5.3
 xkit==0.0.0
